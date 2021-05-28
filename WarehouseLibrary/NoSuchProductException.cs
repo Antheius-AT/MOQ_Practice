@@ -15,18 +15,33 @@ namespace WarehouseLibrary
     public class NoSuchProductException : Exception
     {
         /// <summary>
+        /// Gets the product name associated with this exception.
+        /// </summary>
+        public readonly string product;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NoSuchProductException"/> class.
         /// </summary>
-        public NoSuchProductException()
+        /// <param name="product">The product associated with the message.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if either of the parameters are null.
+        /// </exception>
+        public NoSuchProductException(string product)
         {
+            this.product = product ?? throw new ArgumentNullException(nameof(product), "Product name must not be null.");
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NoSuchProductException"/> class.
         /// </summary>
         /// <param name="message">The exception message.</param>
-        public NoSuchProductException(string message) : base(message)
+        /// <param name="product">The product associated with the message.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if either of the parameters are null.
+        /// </exception>
+        public NoSuchProductException(string message, string product) : base(message)
         {
+            this.product = product ?? throw new ArgumentNullException(nameof(product), "Product name must not be null.");
         }
 
         /// <summary>
@@ -34,8 +49,13 @@ namespace WarehouseLibrary
         /// </summary>
         /// <param name="message">The exception message.</param>
         /// <param name="inner">The inner exception.</param>
-        public NoSuchProductException(string message, Exception inner) : base(message, inner)
+        /// <param name="product">The product associated with the message.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if either of the parameters are null.
+        /// </exception>
+        public NoSuchProductException(string message, Exception inner, string product) : base(message, inner)
         {
+            this.product = product ?? throw new ArgumentNullException(nameof(product), "Product name must not be null.");
         }
 
         /// <summary>
@@ -43,8 +63,13 @@ namespace WarehouseLibrary
         /// </summary>
         /// <param name="info">The serialization info.</param>
         /// <param name="context">The streaming context.</param>
-        public NoSuchProductException(SerializationInfo info, StreamingContext context) : base(info, context)
+        /// <param name="product">The product associated with the message.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if either of the parameters are null.
+        /// </exception>
+        public NoSuchProductException(SerializationInfo info, StreamingContext context, string product) : base(info, context)
         {
+            this.product = product ?? throw new ArgumentNullException(nameof(product), "Product name must not be null.");
         }
     }
 }

@@ -63,6 +63,9 @@ namespace WarehouseLibrary
         ///  /// <exception cref="NoSuchProductException">
         /// Is thrown if the product name is not known to the warehouse.
         /// </exception>
+        /// <exception cref="InsufficientStockException">
+        /// Is thrown if the requested amount exceeds the stock stored of the specified product.
+        /// </exception>
         void TakeStock(string product, int amount);
     }
 }
