@@ -94,6 +94,7 @@ namespace WarehouseLibrary
                 throw new OrderAlreadyFilledException("The order was already filled.");
 
             warehouse.TakeStock(this.product, this.amount);
+            this.IsFilled = true;
         }
     }
 }
