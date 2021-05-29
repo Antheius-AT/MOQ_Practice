@@ -1,3 +1,4 @@
+using Moq;
 using NUnit.Framework;
 using WarehouseLibrary;
 
@@ -8,9 +9,9 @@ namespace WarehouseTests
         [Test]
         public void Does_Order_Fill_Actually_Fill_Order_When_Called_Successfully()
         {
-            var order = new Order("Plastikvagina", 5);
+            var order = new Order("Spielzeug", 5);
             var warehouse = new NotAtAllAnAmazonWarehouse();
-            warehouse.AddStock("Plastikvagina", 100);
+            warehouse.AddStock("Spielzeug", 100);
 
             var before = order.IsFilled;
             order.Fill(warehouse);
@@ -155,6 +156,37 @@ namespace WarehouseTests
             {
                 warehouse.TakeStock("Furzmaschine", 2000);
             });
+        }
+
+        [Test]
+        public void Does_Order_Fill_Use_Warehouse_Moq_Object()
+        {
+            var product = "CDs";
+            var order = new Order(product, 2);
+            var moq = new Mock<IWarehouse>();
+
+            var instance = moq.Object;
+
+            order.Fill(instance);
+
+            moq.Verify(w => w.TakeStock(product, 2), times: Times.Once);
+        }
+
+        [Test]
+        public void Does_Order_CanFill_Use_HasProduct_And_CurrentStock_Methods()
+        {
+            var order = new Order("Maxi King", 20);
+            var moq = new Mock<IWarehouse>();
+
+            moq.Setup(w => w.CurrentStock("Maxi King")).Returns(20);
+            moq.Setup(w => w.HasProduct("Maxi King")).Returns(true);
+
+            var instance = moq.Object;
+
+            order.CanFillOrder(instance);
+
+            moq.Verify(w => w.CurrentStock("Maxi King"), times: Times.Once);
+            moq.Verify(w => w.HasProduct("Maxi King"), times: Times.Once);
         }
     }
 }

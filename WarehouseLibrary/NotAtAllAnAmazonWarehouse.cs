@@ -117,7 +117,7 @@ namespace WarehouseLibrary
             if (!this.HasProduct(product))
                 throw new NoSuchProductException("The specified product is not known to this warehouse", product);
 
-            if (this.products[product] < amount)
+            if (this.CurrentStock(product) < amount)
                 throw new InsufficientStockException("Insufficient stock to honor request.");
 
             this.products[product] -= amount;
